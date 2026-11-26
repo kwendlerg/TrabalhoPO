@@ -20,7 +20,11 @@ public class Principal {
         new File(PASTA_SAIDA).mkdirs();
 
         // aqui ele lê os 400 nomes uma vez só, fora da medição de tempo
-        ArrayList<String> nomes = ManipuladorArquivos.lerNomes(ARQUIVO_NOMES);
+        String[] vetNomes = ManipuladorArquivos.carregarNomes(ARQUIVO_NOMES);
+        ArrayList<String> nomes = new ArrayList<>();
+        for (int i = 0; i < vetNomes.length; i++) {
+            nomes.add(vetNomes[i]);
+        }
 
         for (int m = 0; m < METODOS.length; m++) {
             System.out.println("===== " + METODOS[m] + " =====");
@@ -50,28 +54,28 @@ public class Principal {
     // aqui ele carrega o arquivo, ordena ou pesquisa, e grava a saída
     private static void executarProcedimento(String metodo, String entrada, String saida,
                                              ArrayList<String> nomes) throws IOException {
-        ArrayList<Emprestimo> lista = ManipuladorArquivos.lerEmprestimos(entrada);
+        Emprestimo[] lista = ManipuladorArquivos.carregarEmprestimos(entrada);
 
         switch (metodo) {
             case "Heap":
-                HeapSort.ordenar(lista);
-                ManipuladorArquivos.gravarEmprestimos(lista, saida);
+                new Heapsort(lista).heapSort();
+                ManipuladorArquivos.gravarEmprestimos(saida, lista);
                 break;
 
             case "Quick":
-                QuickSort.ordenar(lista);
-                ManipuladorArquivos.gravarEmprestimos(lista, saida);
+                new Quicksort(lista).quickSort();
+                ManipuladorArquivos.gravarEmprestimos(saida, lista);
                 break;
 
             case "QuickIns":
-                QuickSortInsercao.ordenar(lista);
-                ManipuladorArquivos.gravarEmprestimos(lista, saida);
+                new QuicksortInsercaoDireta(lista).quickSortInsercao();
+                ManipuladorArquivos.gravarEmprestimos(saida, lista);
                 break;
 
             case "ABB":
                 ABB abb = new ABB();
-                for (int i = 0; i < lista.size(); i++) {
-                    abb.inserir(lista.get(i));
+                for (int i = 0; i < lista.length; i++) {
+                    abb.inserir(lista[i]);
                 }
                 abb.balancear();
                 abb.pesquisarEGravar(nomes, saida);
@@ -79,14 +83,14 @@ public class Principal {
 
             case "AVL":
                 AVL avl = new AVL();
-                for (int i = 0; i < lista.size(); i++) {
-                    avl.inserir(lista.get(i));
+                for (int i = 0; i < lista.length; i++) {
+                    avl.inserir(lista[i]);
                 }
                 avl.pesquisarEGravar(nomes, saida);
                 break;
 
             case "Hash":
-                HashingEncadeado hash = new HashingEncadeado(lista.size());
+                HashingEncadeado hash = new HashingEncadeado(lista.length);
                 hash.inserirTodos(lista);
                 hash.pesquisarEGravar(nomes, saida);
                 break;
