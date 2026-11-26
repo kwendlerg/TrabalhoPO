@@ -44,9 +44,9 @@ public class HashingEncadeado {
         this.vetor.get(endereco).add(emp);
     }
 
-    public void inserirTodos(ArrayList<Emprestimo> lista) {
-        for (int i = 0; i < lista.size(); i++) {
-            inserir(lista.get(i));
+    public void inserirTodos(Emprestimo[] lista) {
+        for (int i = 0; i < lista.length; i++) {
+            inserir(lista[i]);
         }
     }
 
@@ -80,7 +80,7 @@ public class HashingEncadeado {
                 out.newLine();
             } else {
                 for (Emprestimo e : encontrados) {
-                    out.write("Empréstimo: " + e.getCodigo()
+                    out.write("Empréstimo: " + e.getCodigoEmprestimo()
                             + " - Livro: " + e.getTituloLivro()
                             + " - Autor: " + e.getAutor());
                     out.newLine();
