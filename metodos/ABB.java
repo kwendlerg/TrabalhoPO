@@ -23,13 +23,20 @@ public class ABB {
     }
 
     private NoABB raiz;
+    private int novosNosDesdeBalanceamento;
+    private static final int INTERVALO_BALANCEAMENTO = 100;
 
     public void inserir(Emprestimo emprestimo) {
         raiz = inserir(raiz, emprestimo);
+        if (novosNosDesdeBalanceamento >= INTERVALO_BALANCEAMENTO) {
+            balancear();
+            novosNosDesdeBalanceamento = 0;
+        }
     }
 
     private NoABB inserir(NoABB no, Emprestimo emprestimo) {
         if (no == null) {
+            novosNosDesdeBalanceamento++;
             return new NoABB(emprestimo);
         }
 
