@@ -32,15 +32,18 @@ public class Heapsort {
         boolean heap = false;
 
         while ((mF <= dir) && (!heap)) {
-            if (mF < dir)
-                if (this.lista[mF].compararCom(this.lista[mF + 1]) < 0)
+            if (mF < dir) {
+                if (this.lista[mF].compararCom(this.lista[mF + 1]) < 0) {
                     mF++;
+                }
+            }
             if (raiz.compararCom(this.lista[mF]) < 0) {
                 this.lista[i] = this.lista[mF];
                 i = mF;
                 mF = 2 * i + 1;
-            } else
+            } else {
                 heap = true;
+            }
         }
         this.lista[i] = raiz;
     }
